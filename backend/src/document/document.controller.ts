@@ -16,6 +16,7 @@ import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { FileDto } from './dto/file.dto';
 
 @Controller('document')
 export class DocumentController {
@@ -24,12 +25,12 @@ export class DocumentController {
   @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('file')) // Interceptor para lidar com o upload do arquivo
-  create(
+  async uploadFile(
+    @UploadedFile() file: FileDto,
     @Body() createDocumentDto: CreateDocumentDto,
-    @Request() req: { sub: { sub: string } },
-    @UploadedFile() file: Express.Multer.File, // Recebe o arquivo enviado
+    @Request() req: { sub: { sub: string }; cookies: string }, // Recebe os cookies da requisição
   ) {
-    return this.documentService.create(createDocumentDto, req, file); // Passa o arquivo para o service
+    return this.documentService.create(createDocumentDto, req, file);
   }
 
   @UseGuards(AuthGuard)
