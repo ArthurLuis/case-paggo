@@ -7,5 +7,6 @@ import { DatabaseModule } from 'src/database/database.module';
   imports: [DatabaseModule],
   controllers: [LlmResponseController],
   providers: [LlmResponseService],
+  exports: [LlmResponseService],
 })
 export class LlmResponseModule {}

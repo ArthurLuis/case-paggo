@@ -30,6 +30,7 @@ model Document {
   fileUrl     String      // URL do arquivo armazenado (ex: S3, local, etc.)
   extractedText String    // Texto extraído pelo OCR
   llmResponses LLMResponse[]
+  sessionId  String?      // ID da sessão do usuário
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 }

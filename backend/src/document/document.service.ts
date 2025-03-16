@@ -1,16 +1,21 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { CreateDocumentDto } from './dto/create-document.dto';
 import { UpdateDocumentDto } from './dto/update-document.dto';
 import { PrismaService } from 'src/database/prisma.service';
 import { OcrService } from './ocr.service';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { FileDto } from './dto/file.dto'; // Importe seu DTO de arquivo
+import { FileDto } from './dto/file.dto';
+import { LlmResponseService } from '../llm-response/llm-response.service'; // Importando o LlmResponseService
+import { GeminiService } from 'src/gemini/gemini.service';
 
 @Injectable()
 export class DocumentService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly ocrService: OcrService,
+    private readonly llmResponseService: LlmResponseService,
+    private readonly geminiService: GeminiService,
   ) {}
 
   private async uploadFile(file: FileDto): Promise<string> {
@@ -38,15 +43,12 @@ export class DocumentService {
         .from('paggo')
         .getPublicUrl(data?.path);
 
-      console.log('Public URL:', publicData.publicUrl); // <-- Adicione esse log aqui
-
       if (!publicData) {
         throw new Error('Error getting public URL: No public data returned');
       }
 
       return publicData.publicUrl; // Retorna o URL público do arquivo
     } catch (err) {
-      // Captura qualquer erro e lança de forma mais clara
       throw new Error(
         `Error during file upload: ${err instanceof Error ? err.message : 'Unknown error'}`,
       );
@@ -60,9 +62,6 @@ export class DocumentService {
   ) {
     const fileUrl = await this.uploadFile(file);
 
-    console.log('File uploaded successfully. URL:', fileUrl); // <-- Adicione esse log
-
-    // Teste se a URL está correta abrindo no navegador
     if (!fileUrl) {
       throw new Error('File URL is undefined. Upload may have failed.');
     }
@@ -70,23 +69,93 @@ export class DocumentService {
     // Extração de texto do arquivo usando OCR
     const extractedText = await this.ocrService.extractTextFromImage(fileUrl);
 
-    return await this.prisma.document.create({
+    const promt = {
+      promt: `
+      Você é um assistente que analisa documentos e extrai informações contextuais. 
+      O usuário enviou um documento e queremos que você interprete o significado das informações extraídas e forneça um contexto geral sobre o conteúdo. 
+      Aqui está o texto extraído do documento:
+      
+      "${extractedText}"
+      
+      Por favor, forneça um resumo do conteúdo, identificando os principais pontos de interesse e possíveis interpretações.
+    `,
+    };
+
+    const geminiResponse = await this.geminiService.generateText(promt);
+
+    if (!geminiResponse) {
+      throw new Error('Falha ao obter resposta do Gemini.');
+    }
+
+    const { result, sessionId } = geminiResponse;
+
+    const document = await this.prisma.document.create({
       data: {
         fileUrl,
         extractedText,
         userId: req.sub.sub,
+        sessionId,
       },
     });
+
+    await this.llmResponseService.create(
+      {
+        userQuery: extractedText,
+        llmAnswer: result,
+      },
+      document.id,
+    );
+
+    return {
+      ...document,
+      aiResponse: result,
+    };
   }
 
-  // Função para buscar todos os documentos
+  async askQuestion(documentId: string, question: string) {
+    console.log('Função askQuestion foi chamada com documentId:', documentId); // Adicionando log inicial
+
+    const document = await this.prisma.document.findUnique({
+      where: { id: documentId },
+      select: { id: true, sessionId: true }, // Incluindo o userSession
+    });
+
+    if (!document) {
+      console.log('Documento não encontrado.');
+      throw new Error('Documento não encontrado.');
+    }
+
+    console.log('Session ID:', document.sessionId); // Adicionando o log
+
+    const prompt = {
+      promt: question,
+      sessionId: document.sessionId || '',
+    };
+    const geminiResponse = await this.geminiService.generateText(prompt);
+
+    if (!geminiResponse) {
+      throw new Error('Falha ao obter resposta do Gemini.');
+    }
+
+    const { result } = geminiResponse;
+
+    await this.llmResponseService.create(
+      {
+        userQuery: question,
+        llmAnswer: result,
+      },
+      document.id,
+    );
+
+    return { response: result };
+  }
+
   async findAll() {
     return await this.prisma.document.findMany({
       include: { llmResponses: true },
     });
   }
 
-  // Função para buscar um documento específico
   async findOne(id: string) {
     return await this.prisma.document.findUnique({
       where: { id },
@@ -94,7 +163,6 @@ export class DocumentService {
     });
   }
 
-  // Função para atualizar um documento
   async update(id: string, updateDocumentDto: UpdateDocumentDto) {
     return await this.prisma.document.update({
       where: { id },
@@ -102,7 +170,6 @@ export class DocumentService {
     });
   }
 
-  // Função para remover um documento
   async remove(id: string) {
     return await this.prisma.document.delete({
       where: { id },

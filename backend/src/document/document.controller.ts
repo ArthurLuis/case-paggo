@@ -34,6 +34,15 @@ export class DocumentController {
   }
 
   @UseGuards(AuthGuard)
+  @Post(':id')
+  async askQuestion(
+    @Param('id') id: string,
+    @Body() body: { question: string },
+  ) {
+    return this.documentService.askQuestion(id, body.question);
+  }
+
+  @UseGuards(AuthGuard)
   @Get()
   findAll() {
     return this.documentService.findAll();
