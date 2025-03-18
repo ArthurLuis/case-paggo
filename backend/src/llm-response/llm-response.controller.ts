@@ -33,6 +33,12 @@ export class LlmResponseController {
   }
 
   @UseGuards(AuthGuard)
+  @Get(':documentId')
+  async findByDocument(@Param('documentId') documentId: string) {
+    return this.llmResponseService.findByDocumentId(documentId);
+  }
+
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.llmResponseService.findOne(id);

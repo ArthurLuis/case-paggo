@@ -18,6 +18,13 @@ export class LlmResponseService {
     });
   }
 
+  async findByDocumentId(documentId: string) {
+    return await this.prisma.lLMResponse.findMany({
+      where: { documentId },
+      orderBy: { createdAt: 'asc' }, 
+    });
+  }
+
   findAll() {
     return this.prisma.lLMResponse.findMany();
   }
