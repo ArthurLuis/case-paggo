@@ -1,5 +1,4 @@
-'use client';
-import React, {useEffect, useState} from 'react';
+'use client';import React, {useEffect, useState} from 'react';
 import DocumentCard from '../components/DocumentCard/DocumentCard';
 import AppScreen from '../components/AppScreen/AppScreen';
 import AuthRedirect from '../hooks/useAuthRedirect';
