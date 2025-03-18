@@ -1,4 +1,5 @@
-'use client';import React from 'react';
+'use client';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {GrDocumentDownload} from 'react-icons/gr';
 
@@ -11,9 +12,20 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
   documentId,
   documentTitle,
 }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // Verifica se o código está sendo executado no lado do cliente
+    if (typeof window !== 'undefined') {
+      setIsClient(true);
+    }
+  }, []);
+
   // Função para baixar o PDF
   const handleDownload = async (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!isClient) return;
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/document/pdf/${documentId}`,
@@ -29,6 +41,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       link.setAttribute('download', `${documentTitle}.pdf`);
       document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link); // Remove o link após o clique
     } catch (error) {
       console.error('Erro ao baixar o documento:', error);
     }
