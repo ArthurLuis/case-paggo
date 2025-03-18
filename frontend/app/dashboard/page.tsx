@@ -1,5 +1,4 @@
-'use client';
-import React, {useEffect, useState} from 'react';
+'use client';import React, {useEffect, useState} from 'react';
 import AppScreen from '../components/AppScreen/AppScreen';
 import UploadBox from '../components/UploadBox/UploadBox';
 import Chat from '../components/Chat/Chat';
