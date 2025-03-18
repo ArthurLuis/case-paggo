@@ -14,7 +14,6 @@ export class OcrService {
         user_defined_dpi: '300',
       });
 
-      console.log('Iniciando OCR...');
       const { data } = await worker.recognize(fileUrl);
       await worker.terminate();
 
