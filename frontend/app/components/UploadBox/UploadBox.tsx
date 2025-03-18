@@ -1,27 +1,22 @@
 'use client';
-import {useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 
 interface UploadBoxProps {
-  onFileSelect: (file: File) => void; 
+  onFileSelect: (file: File) => void;
 }
 
 const UploadBox: React.FC<UploadBoxProps> = ({onFileSelect}) => {
-  const [filePreview, setFilePreview] = useState<string | null>(null); 
   const {getRootProps, getInputProps} = useDropzone({
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0]; // Pega o primeiro arquivo
       if (file) {
-        const previewUrl = URL.createObjectURL(file);
-        setFilePreview(previewUrl); 
-
         onFileSelect(file);
       }
     },
     accept: {
       'image/jpeg': ['.jpg'],
       'image/png': ['.png'],
-    }, 
+    },
   });
 
   return (

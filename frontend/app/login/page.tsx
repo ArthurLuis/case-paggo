@@ -38,12 +38,6 @@ const Login = () => {
       const token = await loginUser(email, password);
 
       if (token) {
-        const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
-          const [name, value] = cookie.split('=');
-          acc[name] = value;
-          return acc;
-        }, {} as {[key: string]: string});
-
         router.push('/dashboard');
       } else {
         setError('Credenciais inválidas. Tente novamente.');
