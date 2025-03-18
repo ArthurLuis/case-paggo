@@ -24,15 +24,16 @@ model User {
 }
 
 model Document {
-  id          String      @id @default(uuid())
-  userId      String
-  user        User        @relation(fields: [userId], references: [id])
-  fileUrl     String      // URL do arquivo armazenado (ex: S3, local, etc.)
-  extractedText String    // Texto extraído pelo OCR
-  llmResponses LLMResponse[]
-  sessionId  String?      // ID da sessão do usuário
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+  fileUrl       String      // URL do arquivo armazenado (ex: S3, local, etc.)
+  extractedText String      // Texto extraído pelo OCR
+  name          String?      // Nome do documento gerado pelo Gemini
+  llmResponses  LLMResponse[]
+  sessionId     String?     // ID da sessão do usuário
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model LLMResponse {
