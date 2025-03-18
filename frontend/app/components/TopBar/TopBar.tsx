@@ -12,18 +12,23 @@ const TopBar = () => {
   const [showLogout, setShowLogout] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
-  const authToken =
-    typeof window !== 'undefined'
-      ? document.cookie
-          .split('; ')
-          .find((row) => row.startsWith('authToken='))
-          ?.split('=')[1]
-      : null;
+  const [authToken, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!authToken) return;
+    // Verificar se o código está sendo executado no lado do cliente
+    if (typeof window !== 'undefined') {
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('authToken='))
+        ?.split('=')[1];
+      setAuthToken(token || null);
+    }
+  }, []);
 
+  useEffect(() => {
+    if (!authToken) return;
+
+    const fetchUserData = async () => {
       try {
         const authResponse = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
