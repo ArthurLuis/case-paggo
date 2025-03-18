@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
 interface JwtPayload {
-  sub: string;
+  sub: string; // userId do payload
   email?: string;
 }
 
@@ -25,10 +25,12 @@ export class AuthGuard implements CanActivate {
       const payload: JwtPayload = await this.jwtService.verifyAsync<JwtPayload>(
         token,
         {
-          secret: process.env.SECRET_KEY,
+          secret: process.env.SECRET_KEY, // Certifique-se de que a chave secreta está no .env
         },
       );
-      request['sub'] = payload;
+
+      // Atribuindo o payload ao objeto 'user' da requisição
+      request.user = { sub: payload.sub, email: payload.email }; // Aqui usamos 'user' em vez de 'sub'
     } catch {
       throw new UnauthorizedException('Invalid or expired token');
     }
