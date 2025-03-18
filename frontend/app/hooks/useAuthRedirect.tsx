@@ -1,9 +1,11 @@
 'use client';
-import {useRouter} from 'next/navigation'; // Atualizando para usar next/navigation
+import {useRouter} from 'next/navigation';
 import React, {useEffect, ReactNode, useState} from 'react';
+import Loading from '../components/Loading/Loading';
 
 const AuthRedirect: React.FC<{children: ReactNode}> = ({children}) => {
   const [isCheckingAuth, setIsCheckingAuth] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,18 +18,22 @@ const AuthRedirect: React.FC<{children: ReactNode}> = ({children}) => {
       }, {});
 
     if (cookies.authToken) {
-      router.replace('/dashboard'); // Redireciona sem permitir voltar
-      return; // Early return para evitar execução do resto do código
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+      setTimeout(() => {
+        router.replace('/login'); // Evita redirecionamento antes da renderização inicial
+      }, 100);
     }
 
-    setIsCheckingAuth(false); // Permite que o conteúdo seja renderizado quando não houver token
+    setIsCheckingAuth(false); // Finaliza o carregamento
   }, [router]);
 
   if (isCheckingAuth) {
-    return <p>Carregando...</p>; // Retorna JSX corretamente
+    return <Loading isLoading />;
   }
 
-  return <>{children}</>;
+  return isAuthenticated ? <>{children}</> : null;
 };
 
 export default AuthRedirect;
