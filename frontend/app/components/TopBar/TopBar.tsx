@@ -2,14 +2,14 @@
 import React, {useEffect, useState} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
 import Image from 'next/image';
-import {FaHome, FaFileAlt, FaSignOutAlt} from 'react-icons/fa'; 
+import {FaHome, FaFileAlt, FaSignOutAlt} from 'react-icons/fa';
 
 import Paggo from '../../../public/images/paggo.jpg';
 import TopBarBox from './TopBarBox';
 
 const TopBar = () => {
   const [userName, setUserName] = useState<string | null>(null);
-  const [showLogout, setShowLogout] = useState<boolean>(false); 
+  const [showLogout, setShowLogout] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
   const authToken =
@@ -25,16 +25,19 @@ const TopBar = () => {
       if (!authToken) return;
 
       try {
-        const authResponse = await fetch('http://localhost:3001/auth/me', {
-          headers: {Authorization: `Bearer ${authToken}`},
-        });
+        const authResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
+          {
+            headers: {Authorization: `Bearer ${authToken}`},
+          }
+        );
 
         if (!authResponse.ok) throw new Error('Erro ao buscar ID do usuário');
 
         const {userId} = await authResponse.json();
 
         const userResponse = await fetch(
-          `http://localhost:3001/user/${userId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/user/${userId}`,
           {
             headers: {Authorization: `Bearer ${authToken}`},
           }
@@ -74,7 +77,7 @@ const TopBar = () => {
       <div className='flex items-center justify-center gap-8 flex-grow'>
         <TopBarBox
           href='/dashboard'
-          icon={<FaHome size={24} />} 
+          icon={<FaHome size={24} />}
           active={pathname === '/dashboard' || pathname === '/'}
         />
         <TopBarBox
@@ -88,7 +91,7 @@ const TopBar = () => {
         <p className='mr-3 text-white'>{userName}</p>
         <div
           className='w-10 h-10 bg-gray-600 text-white flex items-center justify-center rounded-full cursor-pointer'
-          onClick={() => setShowLogout((prev) => !prev)} 
+          onClick={() => setShowLogout((prev) => !prev)}
         >
           <p className='text-white font-medium text-[22px]'>{initial}</p>
         </div>

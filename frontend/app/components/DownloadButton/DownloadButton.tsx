@@ -16,7 +16,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
     e.stopPropagation();
     try {
       const response = await axios.post(
-        `http://localhost:3001/document/pdf/${documentId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/document/pdf/${documentId}`,
         null,
         {
           responseType: 'blob',
