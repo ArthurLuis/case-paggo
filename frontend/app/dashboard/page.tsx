@@ -6,9 +6,6 @@ import Chat from '../components/Chat/Chat';
 import Loading from '../components/Loading/Loading';
 
 export default function Dashboard() {
-  if (typeof window === 'undefined') {
-    return null;
-  }
   const [isFileSelected, setIsFileSelected] = useState<boolean>(false);
   const [userDocument, setUserDocument] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);

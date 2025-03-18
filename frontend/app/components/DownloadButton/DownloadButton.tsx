@@ -1,4 +1,4 @@
-import React from 'react';
+'use client';import React from 'react';
 import axios from 'axios';
 import {GrDocumentDownload} from 'react-icons/gr';
 
