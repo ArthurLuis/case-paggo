@@ -37,9 +37,13 @@ const DocumentsPage = () => {
   };
 
   const handleDeleteSuccess = (documentId: string) => {
-    setDocuments((prevDocuments) =>
-      prevDocuments.filter((doc) => doc.id !== documentId)
-    );
+    const updatedDocuments = documents.filter((doc) => doc.id !== documentId);
+
+    setDocuments(updatedDocuments);
+
+    if (updatedDocuments.length === 0) {
+      setNoDocumentsFetched(true);
+    }
   };
 
   useEffect(() => {
