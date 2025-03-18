@@ -1,17 +1,22 @@
 'use client';
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import AppScreen from '../components/AppScreen/AppScreen';
 import UploadBox from '../components/UploadBox/UploadBox';
 import Chat from '../components/Chat/Chat';
+import Loading from '../components/Loading/Loading';
+import useProgress from '@/app/hooks/useProgress';
 
 export default function Dashboard() {
   const [isFileSelected, setIsFileSelected] = React.useState<boolean>(false);
   const [userDocument, setUserDocument] = React.useState<any>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [documentId, setDocumentId] = useState<string>('');
   const [aiResponse, setAiResponse] = React.useState<string>('');
   const [fileData, setFileData] = React.useState<any>(null);
   const [authToken, setAuthToken] = useState<string | null>(null);
+  const [extractedText, setExtractedText] = useState<string>(''); // Estado para armazenar o texto extraído
+
+  const {instance, progress, setProgress} = useProgress();
 
   useEffect(() => {
     // Acessa o cookie apenas no lado do cliente
@@ -23,35 +28,45 @@ export default function Dashboard() {
 
       setAuthToken(token || null);
     }
-  }, []); 
+  }, []);
 
   const uploadFile = async (file: File) => {
-    console.log('Uploading file', file);
-
     if (!authToken) {
       console.error('Token de autenticação não encontrado');
       return;
     }
 
     try {
-      // Criar um FormData para enviar o arquivo
       const formData = new FormData();
       formData.append('file', file);
 
       setLoading(true);
+      setProgress(10); // Inicia com 10%
 
-      // URL completa da API
       const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/document`;
 
-      // Enviar para a rota '/document' com o authToken no header
-      const response = await axios.post(apiUrl, formData, {
+      const response = await instance.post(apiUrl, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${authToken}`, // Adicionando o token no cabeçalho
+          Authorization: `Bearer ${authToken}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / (progressEvent.total || 1)
+          );
+          setProgress(percentCompleted);
+        },
+        onDownloadProgress: (progressEvent) => {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / (progressEvent.total || 1)
+          );
+          setProgress(percentCompleted);
         },
       });
 
-      // Processar a resposta da API
+
+      setDocumentId(response.data.id);
+
       const {
         id,
         userId,
@@ -63,7 +78,6 @@ export default function Dashboard() {
         aiResponse,
       } = response.data;
 
-      // Atualizar o estado com os dados da resposta
       setFileData({
         id,
         userId,
@@ -75,30 +89,34 @@ export default function Dashboard() {
       });
 
       setAiResponse(aiResponse);
+      setExtractedText(extractedText); 
       setUserDocument(fileUrl);
     } catch (error) {
-      console.error('Error uploading file:', error);
+      console.error('Erro ao fazer upload do arquivo:', error);
     } finally {
       setLoading(false);
+      setTimeout(() => setProgress(0), 500);
     }
   };
 
   const onFileSelectFunction = (file: any) => {
-    console.log('File selected', file);
     setIsFileSelected(true);
     uploadFile(file);
   };
 
   return (
     <AppScreen>
-      {/* INICIO */}
-
       {!isFileSelected && (
         <UploadBox onFileSelect={(file) => onFileSelectFunction(file)} />
       )}
-      {loading && <p>Carregando...</p>}
+      {loading && <Loading isLoading={loading} progress={progress} />}
       {isFileSelected && !loading && fileData && aiResponse && (
-        <Chat aiResponse={aiResponse} photo={userDocument} />
+        <Chat
+          aiResponse={aiResponse}
+          photo={userDocument}
+          documentId={documentId}
+          extractedText={`Texto extraido da imagem: ${extractedText}`} 
+        />
       )}
     </AppScreen>
   );
