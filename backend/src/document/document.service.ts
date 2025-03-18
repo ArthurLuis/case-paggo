@@ -70,8 +70,7 @@ export class DocumentService {
     const extractedText = await this.ocrService.extractTextFromImage(fileUrl);
 
     const prompt = {
-      promt: `
-      Você é um assistente que analisa documentos e extrai informações contextuais.
+      promt: `Você é um assistente que analisa documentos e extrai informações contextuais.
       O usuário enviou um documento e queremos que você interprete o significado das informações
       extraídas a partir de um texto gerado por um software de OCR. Então desconsidere erros gramaticais
       e caracteres estranhos no meio, que podem ser ocasionados às vezes pelo software.
@@ -140,10 +139,11 @@ export class DocumentService {
       aiResponse: summary,
     };
   }
+
   async askQuestion(documentId: string, question: string) {
     const document = await this.prisma.document.findUnique({
       where: { id: documentId },
-      select: { id: true, sessionId: true }, 
+      select: { id: true, sessionId: true },
     });
 
     if (!document) {
@@ -211,6 +211,12 @@ export class DocumentService {
   }
 
   async remove(id: string) {
+    // Deletar as respostas relacionadas antes de deletar o documento
+    await this.prisma.lLMResponse.deleteMany({
+      where: { documentId: id },
+    });
+
+    // Agora, deletar o documento
     return await this.prisma.document.delete({
       where: { id },
     });

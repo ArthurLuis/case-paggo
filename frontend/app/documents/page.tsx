@@ -1,4 +1,6 @@
-'use client';import React, {useEffect, useState} from 'react';import DocumentCard from '../components/DocumentCard/DocumentCard';
+'use client';
+import React, {useEffect, useState} from 'react';
+import DocumentCard from '../components/DocumentCard/DocumentCard';
 import AppScreen from '../components/AppScreen/AppScreen';
 import AuthRedirect from '../hooks/useAuthRedirect';
 import Loading from '../components/Loading/Loading';
@@ -8,7 +10,7 @@ interface Document {
   id: string;
   extractedText: string;
   fileUrl: string;
-  name?: string; 
+  name?: string;
 }
 
 const DocumentsPage = () => {
@@ -20,6 +22,7 @@ const DocumentsPage = () => {
   const [loading, setLoading] = useState(false);
   const [authToken, setAuthToken] = useState<string | null>(null);
   const [isFetchingDocs, setIsFetchingDocs] = useState(true);
+  const [noDocumentsFetched, setNoDocumentsFetched] = useState(false); // Track if no documents are fetched
   const router = useRouter();
 
   const getAuthTokenFromCookies = () => {
@@ -48,15 +51,18 @@ const DocumentsPage = () => {
       }
 
       try {
-        const userResponse = await fetch('http://localhost:3001/auth/me', {
-          headers: {Authorization: `Bearer ${authToken}`},
-        });
+        const userResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/me`,
+          {
+            headers: {Authorization: `Bearer ${authToken}`},
+          }
+        );
 
         if (!userResponse.ok) throw new Error('Erro ao buscar usuário');
         const {userId} = await userResponse.json();
 
         const docResponse = await fetch(
-          `http://localhost:3001/document/user/${userId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/document/user/${userId}`,
           {
             headers: {Authorization: `Bearer ${authToken}`},
           }
@@ -71,6 +77,7 @@ const DocumentsPage = () => {
         );
 
         setDocuments(uniqueDocs);
+        setNoDocumentsFetched(uniqueDocs.length === 0); // Set flag if no documents found
       } catch (error) {
         console.error('Erro ao buscar dados:', error);
       } finally {
@@ -93,7 +100,7 @@ const DocumentsPage = () => {
       if (!authToken) return;
 
       const response = await fetch(
-        `http://localhost:3001/llm-response/${documentId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/llm-response/${documentId}`,
         {
           headers: {Authorization: `Bearer ${authToken}`},
         }
@@ -121,7 +128,7 @@ const DocumentsPage = () => {
 
           {isFetchingDocs ? (
             <Loading isLoading />
-          ) : documents.length === 0 ? (
+          ) : noDocumentsFetched ? (
             <div className='text-center mt-6'>
               <p className='text-gray-600 mb-4'>
                 Você não tem nenhum documento.
@@ -146,6 +153,7 @@ const DocumentsPage = () => {
                   onExpand={handleExpand}
                   isExpanded={expandedDocumentId === doc.id}
                   loading={loading && expandedDocumentId === doc.id}
+                  authToken={authToken}
                 />
               ))}
             </div>

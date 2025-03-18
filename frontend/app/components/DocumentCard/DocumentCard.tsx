@@ -1,22 +1,14 @@
-'use client';import React, {useState, useEffect} from 'react';
+'use client';
+import React, {useState, useEffect} from 'react';
 import Balloon from '../Balloon/Baloon';
 import AppInput from '../AppInput/AppInput';
 import AppButton from '../AppButton/AppButton';
-import Loading from '../Loading/Loading'; 
-import DownloadButton from '../DownloadButton/DownloadButton'; 
-import ImageModal from '../ImageModal/ImageModal'; 
+import Loading from '../Loading/Loading';
+import DownloadButton from '../DownloadButton/DownloadButton';
+import ImageModal from '../ImageModal/ImageModal';
 import {MdArrowDropDown} from 'react-icons/md';
 import axios from 'axios';
-
-const getTokenFromCookies = (): string | null => {
-  const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
-    const [name, value] = cookie.split('=');
-    acc[name] = value;
-    return acc;
-  }, {} as {[key: string]: string});
-
-  return cookies.authToken || null;
-};
+import DeleteButton from '../DeleteButton/DeleteButton'; // Certifique-se de importar o DeleteButton
 
 interface LlmResponse {
   id: string;
@@ -30,10 +22,11 @@ interface DocumentCardProps {
   documentTitle: string;
   extractedText: string;
   llmResponses: LlmResponse[];
-  documentImageUrl: string; 
+  documentImageUrl: string;
   onExpand: (documentId: string) => void;
   isExpanded: boolean;
   loading: boolean;
+  authToken: string | null;
 }
 
 const DocumentCard = ({
@@ -45,6 +38,7 @@ const DocumentCard = ({
   onExpand,
   isExpanded,
   loading,
+  authToken,
 }: DocumentCardProps) => {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<LlmResponse[]>([]);
@@ -69,14 +63,13 @@ const DocumentCard = ({
     ]);
 
     try {
-      const token = getTokenFromCookies();
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/document/${documentId}`,
         {question: newMessage},
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: token ? `Bearer ${token}` : '',
+            Authorization: authToken ? `Bearer ${authToken}` : '',
           },
         }
       );
@@ -146,8 +139,18 @@ const DocumentCard = ({
         )}
       </div>
 
-      <div className='absolute right-4 top-4'>
+      {/* Organizando botões em um contêiner flex */}
+      <div className='absolute right-4 top-4 flex flex-col gap-4'>
+        {/* Botão de Download */}
         <DownloadButton documentId={documentId} documentTitle={documentTitle} />
+
+        {/* Botão de Deletar */}
+        <DeleteButton
+          documentId={documentId}
+          documentName={documentTitle}
+          authToken={authToken} 
+          
+        />
       </div>
 
       {loading && (
@@ -159,14 +162,14 @@ const DocumentCard = ({
       {isExpanded && !loading && (
         <div className='mt-4 flex flex-col h-full'>
           <div
-            className='flex-1 overflow-y-auto px-4 mb-4'
+            className='flex-1 overflow-y-auto px-4 mb-24'
             style={{maxHeight: 'calc(100% - 80px)', minHeight: '150px'}}
           >
             {messages.length === 0 && (
               <Balloon type='app'>{extractedText}</Balloon>
             )}
             {messages.map((message) => (
-              <div key={message.id} className='mb-24' >
+              <div key={message.id} className='mb-4'>
                 <Balloon type='user'>{message.userQuery}</Balloon>
                 <Balloon type='app'>
                   {message.llmAnswer === '...' ? (
