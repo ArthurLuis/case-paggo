@@ -27,6 +27,7 @@ interface DocumentCardProps {
   isExpanded: boolean;
   loading: boolean;
   authToken: string | null;
+  handleDeleteSuccess: (documentId: string) => void;
 }
 
 const DocumentCard = ({
@@ -39,6 +40,7 @@ const DocumentCard = ({
   isExpanded,
   loading,
   authToken,
+  handleDeleteSuccess,
 }: DocumentCardProps) => {
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState<LlmResponse[]>([]);
@@ -148,8 +150,8 @@ const DocumentCard = ({
         <DeleteButton
           documentId={documentId}
           documentName={documentTitle}
-          authToken={authToken} 
-          
+          authToken={authToken}
+          onDeleteSuccess={handleDeleteSuccess}
         />
       </div>
 

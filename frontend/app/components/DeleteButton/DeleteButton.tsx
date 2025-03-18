@@ -5,12 +5,14 @@ interface DeleteButtonProps {
   documentId: string;
   documentName: string;
   authToken?: string | null;
+  onDeleteSuccess: (documentId: string) => void; // Nova prop
 }
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({
   documentId,
   documentName,
   authToken,
+  onDeleteSuccess, // Receber a função de callback
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,6 +44,9 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 
       if (!response.ok) throw new Error('Erro ao deletar o documento');
 
+      // Chama a função de callback para remover o documento da lista
+      onDeleteSuccess(documentId);
+
       // Fechar o modal após a exclusão
       setIsModalOpen(false);
     } catch (error) {
@@ -51,15 +56,13 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({
 
   return (
     <div>
-      {/* Ícone de lixeira */}
       <button
         onClick={handleDeleteClick}
-        className='p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition'
+        className='p-2 bg-gray-800 text-white rounded-lg hover:scale-95 hover:bg-red-800 transition'
       >
-        <FaTrash />
+        <FaTrash size={22} />
       </button>
 
-      {/* Modal de confirmação */}
       {isModalOpen && (
         <div className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10'>
           <div className='bg-white p-6 rounded-lg shadow-lg w-96'>

@@ -36,6 +36,12 @@ const DocumentsPage = () => {
     return cookies.authToken || null;
   };
 
+  const handleDeleteSuccess = (documentId: string) => {
+    setDocuments((prevDocuments) =>
+      prevDocuments.filter((doc) => doc.id !== documentId)
+    );
+  };
+
   useEffect(() => {
     const token = getAuthTokenFromCookies();
     if (token) {
@@ -154,6 +160,7 @@ const DocumentsPage = () => {
                   isExpanded={expandedDocumentId === doc.id}
                   loading={loading && expandedDocumentId === doc.id}
                   authToken={authToken}
+                  handleDeleteSuccess={handleDeleteSuccess}
                 />
               ))}
             </div>
