@@ -1,8 +1,7 @@
-'use client';
-import Image from 'next/image';
+'use client';import Image from 'next/image';
 import React, {useState} from 'react';
 import Paggo from '../../public/images/paggo.jpg';
-import AppInput from '../components/AppInput/AppInput';
+import AppInput from '../../components/AppInput/AppInput';
 import axios from 'axios';
 import {AxiosError} from 'axios';
 import {useRouter} from 'next/navigation';

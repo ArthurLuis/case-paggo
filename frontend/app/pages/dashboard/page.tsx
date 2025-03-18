@@ -1,8 +1,9 @@
-'use client';import React, {useEffect, useState} from 'react';
-import AppScreen from '../components/AppScreen/AppScreen';
-import UploadBox from '../components/UploadBox/UploadBox';
-import Chat from '../components/Chat/Chat';
-import Loading from '../components/Loading/Loading';
+'use client';
+import React, {useEffect, useState} from 'react';
+import AppScreen from '../../components/AppScreen/AppScreen';
+import UploadBox from '../../components/UploadBox/UploadBox';
+import Chat from '../../components/Chat/Chat';
+import Loading from '../../components/Loading/Loading';
 
 export default function Dashboard() {
   const [isFileSelected, setIsFileSelected] = useState<boolean>(false);

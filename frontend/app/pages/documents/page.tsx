@@ -1,9 +1,8 @@
-'use client';
-import React, {useEffect, useState} from 'react';
-import DocumentCard from '../components/DocumentCard/DocumentCard';
-import AppScreen from '../components/AppScreen/AppScreen';
-import AuthRedirect from '../hooks/useAuthRedirect';
-import Loading from '../components/Loading/Loading';
+'use client';import React, {useEffect, useState} from 'react';
+import DocumentCard from '../../components/DocumentCard/DocumentCard';
+import AppScreen from '../../components/AppScreen/AppScreen';
+import AuthRedirect from '../../hooks/useAuthRedirect';
+import Loading from '../../components/Loading/Loading';
 import {useRouter} from 'next/navigation';
 
 interface Document {
