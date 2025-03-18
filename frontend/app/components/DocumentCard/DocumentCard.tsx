@@ -1,5 +1,4 @@
-'use client';
-import React, {useState, useEffect} from 'react';
+'use client';import React, {useState, useEffect} from 'react';
 import Balloon from '../Balloon/Baloon';
 import AppInput from '../AppInput/AppInput';
 import AppButton from '../AppButton/AppButton';
@@ -164,7 +163,7 @@ const DocumentCard = ({
       {isExpanded && !loading && (
         <div className='mt-4 flex flex-col h-full'>
           <div
-            className='flex-1 overflow-y-auto px-4 mb-24'
+            className='flex-1 overflow-y-auto pb-20 pt-4 pr-4 pl-4'
             style={{maxHeight: 'calc(100% - 80px)', minHeight: '150px'}}
           >
             {messages.length === 0 && (
