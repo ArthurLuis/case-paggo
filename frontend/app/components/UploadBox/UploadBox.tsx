@@ -3,32 +3,29 @@ import {useState} from 'react';
 import {useDropzone} from 'react-dropzone';
 
 interface UploadBoxProps {
-  onFileSelect: (file: File) => void; // Define a função para passar o arquivo ao componente pai
+  onFileSelect: (file: File) => void; 
 }
 
 const UploadBox: React.FC<UploadBoxProps> = ({onFileSelect}) => {
-  const [filePreview, setFilePreview] = useState<string | null>(null); // Estado para armazenar a URL da imagem
+  const [filePreview, setFilePreview] = useState<string | null>(null); 
   const {getRootProps, getInputProps} = useDropzone({
     onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0]; // Pega o primeiro arquivo
       if (file) {
-        // Cria uma URL temporária para a imagem
         const previewUrl = URL.createObjectURL(file);
-        setFilePreview(previewUrl); // Armazena a URL no estado
+        setFilePreview(previewUrl); 
 
-        // Chama a função onFileSelect para passar o arquivo ao componente pai
         onFileSelect(file);
       }
     },
     accept: {
       'image/jpeg': ['.jpg'],
       'image/png': ['.png'],
-    }, // Só aceita arquivos de imagem
+    }, 
   });
 
   return (
     <div>
-      {/* Área de arrastar e soltar */}
       <div
         {...getRootProps({className: 'dropzone'})}
         style={{
