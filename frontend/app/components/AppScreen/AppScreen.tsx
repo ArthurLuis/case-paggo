@@ -1,7 +1,8 @@
-'use client';import React, {useEffect, useState} from 'react';
+'use client';
+import React, {useEffect, useState} from 'react';
 import {useRouter, usePathname} from 'next/navigation';
 import TopBar from '../TopBar/TopBar';
-import SideMenu from '../SideMenu/SideMenu';
+import Loading from '../Loading/Loading';
 
 interface AppScreenProps {
   children: React.ReactNode;
@@ -26,7 +27,7 @@ const AppScreen: React.FC<AppScreenProps> = ({children}) => {
       const isLoginPage = pathname === '/login';
 
       if (!isAuthenticated && !isLoginPage) {
-        router.replace('/login'); // Redireciona para login se não autenticado
+        router.replace('/login');
       }
 
       setIsCheckingAuth(false);
@@ -36,13 +37,12 @@ const AppScreen: React.FC<AppScreenProps> = ({children}) => {
   }, [router, pathname]);
 
   if (isCheckingAuth) {
-    return <p>Carregando...</p>; // Evita que a interface pisque antes da verificação
+    return <Loading isLoading />;
   }
 
   return (
     <>
       <TopBar />
-      <SideMenu />
       <div className='mt-32 ml-44 mr-10'>{children}</div>
     </>
   );
