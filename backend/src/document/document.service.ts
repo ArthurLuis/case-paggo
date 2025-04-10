@@ -80,7 +80,7 @@ export class DocumentService {
       Aqui está o texto extraído do documento:
       "${extractedText}"
 
-      1. Resuma o conteúdo, destacando os pontos principais, mas lembre é uma conversa, não precisa ficar enorme.
+      1. Resuma o conteúdo, destacando os pontos principais.
       2. Sugira um título curto e descritivo para este documento usando a língua original do texto (máximo 6 palavras).
 
       Retorne a resposta no seguinte formato JSON:
