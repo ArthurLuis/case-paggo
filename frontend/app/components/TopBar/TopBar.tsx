@@ -1,10 +1,8 @@
-'use client';
-import React, {useEffect, useState} from 'react';
+'use client';import React, {useEffect, useState} from 'react';
 import {usePathname, useRouter} from 'next/navigation';
 import Image from 'next/image';
 import {FaHome, FaFileAlt, FaSignOutAlt} from 'react-icons/fa';
-
-import Paggo from '../../../public/images/paggo.jpg';
+import appIcon from '../../../public/images/appIcon.svg';
 import TopBarBox from './TopBarBox';
 
 const TopBar = () => {
@@ -15,7 +13,6 @@ const TopBar = () => {
   const [authToken, setAuthToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // Verificar se o código está sendo executado no lado do cliente
     if (typeof window !== 'undefined') {
       const token = document.cookie
         .split('; ')
@@ -72,8 +69,8 @@ const TopBar = () => {
   return (
     <div className='flex bg-[#141316] w-full h-20 shadow-md fixed top-0 left-0 items-center justify-between z-50 px-4'>
       <Image
-        className='ml-10'
-        src={Paggo}
+        className='ml-10 hidden sm:block'
+        src={appIcon}
         alt='Company Symbol'
         width={69}
         height={59}
@@ -93,14 +90,15 @@ const TopBar = () => {
       </div>
 
       <div className='flex pr-10 ml-auto items-center justify-center relative'>
-        <p className='mr-3 text-white'>{userName}</p>
+        <div className='w-[60px] mr-3 hidden sm:flex items-center justify-end'>
+          <p className='text-white truncate'>{userName}</p>
+        </div>{' '}
         <div
           className='w-10 h-10 bg-gray-600 text-white flex items-center justify-center rounded-full cursor-pointer'
           onClick={() => setShowLogout((prev) => !prev)}
         >
           <p className='text-white font-medium text-[22px]'>{initial}</p>
         </div>
-
         {showLogout && (
           <div className='absolute right-0 top-12 bg-black text-white shadow-lg rounded-md p-2'>
             <button

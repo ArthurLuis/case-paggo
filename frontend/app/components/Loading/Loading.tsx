@@ -1,4 +1,5 @@
-'use client';import React from 'react';
+'use client';
+import React from 'react';
 import Lottie from 'lottie-react';
 import loadingAnimation from '@/public/loading.json';
 
@@ -16,7 +17,7 @@ const Loading = ({
   return (
     isLoading && (
       <div className='flex flex-col items-center justify-center'>
-        <div className='w-48 h-48 md:w-64 md:h-64'>
+        <div className='w-64 h-64'>
           <Lottie animationData={loadingAnimation} loop autoPlay />
         </div>
 
