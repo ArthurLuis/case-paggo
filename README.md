@@ -4,6 +4,27 @@ A aplicação **ESCANE.IA** foi desenvolvida para facilitar o gerenciamento de d
 
 ---
 
+## 🔧 Tecnologias Utilizadas
+
+O projeto foi desenvolvido empregando as seguintes tecnologias:
+
+<div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+  <img src="https://pbs.twimg.com/profile_images/1785867863191932928/EpOqfO6d_400x400.png" alt="React Logo" width="60"/>
+    <img src="https://media2.dev.to/dynamic/image/width=1080,height=1080,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fn95iol17gaecwx2rwm2y.jpeg" alt="Next.js Logo" width="60"/>
+  <img src="https://www.datocms-assets.com/48401/1628645197-learn-typescript.png" alt="TypeScript Logo" width="80"/>
+
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQGVV8fOc_D2_vxf1_MrxRuPeF3Y1EFAJrxg&s" alt="TailwindCSS Logo" width="120"/>
+  <img src="https://www.luisllamas.es/wp-content/uploads/2019/05/axios.png" alt="Axios Logo" width="90"/>
+  <img src="https://nestjs.com/img/logo_text.svg" alt="NestJS Logo" width="90"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL Logo" width="70"/>
+  <img src="https://cdn.worldvectorlogo.com/logos/prisma-2.svg" alt="Prisma" width="90"/>
+  <img src="https://getlogo.net/wp-content/uploads/2020/11/supabase-logo-vector.png" alt="Supabase" width="90"/>
+  <img src="https://www.heise.de/download/media/tesseract-ocr/tesseract-ocr_1-1-30.jpg" alt="Tesseract" width="90"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/2560px-Google_Gemini_logo.svg.png" alt="Gemini" width="90"/>
+</div>
+
+---
+
 ## 🌟 Funcionalidades
 
 ### 1. Upload de Imagens e Documentos
@@ -12,32 +33,27 @@ Permite que usuários realizem o upload de imagens e documentos de maneira simpl
 ### 2. Extração Automática de Texto via OCR
 Utiliza o Tesseract para converter imagens em texto automaticamente, garantindo a extração rápida e precisa dos dados contidos nos documentos.
 
-### 3. Geração Automática de Cards
-Após a extração do conteúdo textual, o sistema gera cards com nomes automáticos, baseados no conteúdo dos documentos, para uma organização intuitiva.
+### 3. Gestão de documentos e nomeação automatica
+Após a extração do conteúdo textual, o sistema gera documentos associados a sua conta com nomes automáticos, baseados no conteúdo dos documentos, para uma organização intuitiva.
 
 ### 4. Interação Contextual com Documentos Usando IA
 Integra o Google Gemini, permitindo que os usuários interajam com os documentos, obtenham respostas contextuais e aproveitem análises inteligentes, facilitando a compreensão dos conteúdos.
 
 ### 5. Histórico de Interações
-Registra todas as interações realizadas com cada documento, possibilitando uma visão completa do histórico e melhor gestão das informações.
+Registra todas as interações realizadas com cada documento, possibilitando uma visão completa do histórico e melhor gestão das informações, é possivel revisitar um documento escaneado anteriormente e fazer novas perguntas.
 
-### 6. Autenticação Segura com JWT
+### 6. Exportação em PDF com Conteúdo e Interações
+Permite gerar e baixar um arquivo PDF a qualquer momento contendo o texto extraído do documento e todo o histórico de interações com a IA, facilitando o arquivamento e o compartilhamento das informações analisadas.
+
+### 7. Autenticação Segura com JWT
 Implementa um robusto sistema de autenticação utilizando tokens JWT para garantir o acesso seguro à aplicação.
 
-### 7. Integração com Banco de Dados PostgreSQL por meio do Prisma
+### 8. Integração com Banco de Dados PostgreSQL por meio do Prisma
 Utiliza PostgreSQL juntamente com o Prisma para uma gestão de dados eficiente, garantindo performance e integridade.
 
-### 8. Deploy e Acesso Online
+### 9. Deploy e Acesso Online
 A aplicação está hospedada na nuvem, facilitando o acesso para testes e utilização:
 - **Deploy Online:** [ESCANE.IA](https://escane-ia-iota.vercel.app/)
-
----
-
-## 🔧 Tecnologias Utilizadas
-
-O projeto foi desenvolvido empregando as seguintes tecnologias:
-
-(div com logos das tecnologias - adicione manualmente os ícones ou remova se preferir um README mais limpo)
 
 ---
 
