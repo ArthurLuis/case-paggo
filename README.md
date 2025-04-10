@@ -1,104 +1,145 @@
+# ESCANE.IA - Sistema de Gestão de Documentos com OCR e IA
 
-Fiquei muito feliz de fazer parte desse processo e desenvolver este projeto incrível para o case técnico! As tecnologias utilizadas foram uma experiência enriquecedora e alinhadas com as práticas modernas de desenvolvimento.
+A aplicação **ESCANE.IA** foi desenvolvida para facilitar o gerenciamento de documentos, combinando tecnologias de OCR e Inteligência Artificial para extrair e interagir com o conteúdo de documentos de forma inteligente.
+
+---
+
+## 🌟 Funcionalidades
+
+### 1. Upload de Imagens e Documentos
+Permite que usuários realizem o upload de imagens e documentos de maneira simples, possibilitando o tratamento de diversos formatos com facilidade.
+
+### 2. Extração Automática de Texto via OCR
+Utiliza o Tesseract para converter imagens em texto automaticamente, garantindo a extração rápida e precisa dos dados contidos nos documentos.
+
+### 3. Geração Automática de Cards
+Após a extração do conteúdo textual, o sistema gera cards com nomes automáticos, baseados no conteúdo dos documentos, para uma organização intuitiva.
+
+### 4. Interação Contextual com Documentos Usando IA
+Integra o Google Gemini, permitindo que os usuários interajam com os documentos, obtenham respostas contextuais e aproveitem análises inteligentes, facilitando a compreensão dos conteúdos.
+
+### 5. Histórico de Interações
+Registra todas as interações realizadas com cada documento, possibilitando uma visão completa do histórico e melhor gestão das informações.
+
+### 6. Autenticação Segura com JWT
+Implementa um robusto sistema de autenticação utilizando tokens JWT para garantir o acesso seguro à aplicação.
+
+### 7. Integração com Banco de Dados PostgreSQL por meio do Prisma
+Utiliza PostgreSQL juntamente com o Prisma para uma gestão de dados eficiente, garantindo performance e integridade.
+
+### 8. Deploy e Acesso Online
+A aplicação está hospedada na nuvem, facilitando o acesso para testes e utilização:
+- **Deploy Online:** [ESCANE.IA](https://escane-ia-iota.vercel.app/)
 
 ---
 
 ## 🔧 Tecnologias Utilizadas
 
-Este projeto foi construído utilizando as seguintes tecnologias:
+O projeto foi desenvolvido empregando as seguintes tecnologias:
 
-<div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-  <img src="https://media2.dev.to/dynamic/image/width=1080,height=1080,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fn95iol17gaecwx2rwm2y.jpeg" alt="Next.js Logo" width="60"/>
-  <img src="https://pbs.twimg.com/profile_images/1785867863191932928/EpOqfO6d_400x400.png" alt="React Logo" width="60"/>
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQGVV8fOc_D2_vxf1_MrxRuPeF3Y1EFAJrxg&s" alt="TailwindCSS Logo" width="140"/>
-  <img src="https://www.luisllamas.es/wp-content/uploads/2019/05/axios.png" alt="Axios Logo" width="90"/>
-  <img src="https://www.datocms-assets.com/48401/1628645197-learn-typescript.png" alt="TypeScript Logo" width="90"/>
-  <img src="https://nestjs.com/img/logo_text.svg" alt="NestJS Logo" width="90"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" alt="PostgreSQL Logo" width="90"/>
-  <img src="https://cdn.worldvectorlogo.com/logos/prisma-2.svg" alt="Prisma" width="90"/>
-  <img src="https://getlogo.net/wp-content/uploads/2020/11/supabase-logo-vector.png" alt="Supabase" width="90"/>
-  <img src="https://www.heise.de/download/media/tesseract-ocr/tesseract-ocr_1-1-30.jpg" alt="Tesseract" width="90"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/2560px-Google_Gemini_logo.svg.png" alt="Gemini" width="90"/>
-
-</div>
+(div com logos das tecnologias - adicione manualmente os ícones ou remova se preferir um README mais limpo)
 
 ---
 
-## 📊 Gerenciamento do Processo
-Durante o desenvolvimento desse projeto, utilizei um Notion para gerenciar minhas tarefas e relatórios diários. Você pode acompanhar todo o progresso e detalhes do processo [aqui](https://www.notion.so/Paggo-Case-T-cnico-1b42b5a27fc38083827be293dc3c1ac0).
+## ⚙️ Como Rodar Localmente
 
-## 🚀 Deploy
-O projeto foi deployado na Vercel para o frontend e Railway para o backend.
+### Pré-requisitos
 
-* [FRONTEND](https://case-paggo-iota.vercel.app/)
-* [BACKEND](https://case-paggo-production.up.railway.app/)
+- Node.js 16 ou superior
+- Gerenciador de pacotes: NPM, Yarn ou PNPM
+- PostgreSQL (local ou via serviço, como Supabase)
 
-## 💻 Configuração do Ambiente
+---
 
-### Requisitos
+### 📦 Instalação
 
-Certifique-se de ter instalado:
-- **Node.js** (versão 16 ou superior).
-- **Gerenciador de pacotes** (npm, yarn ou pnpm).
+1. Clone o repositório:
 
-### Passo a Passo
-
-1. **Clone o repositório:**
-   ```bash
-   git clone [https://github.com/](https://github.com/ArthurLuis/case-paggo)
-2. **Instale as dependências:**
-   ```bash
-   npm install na pasta do backend e frontend
-   # ou
-   yarn install
-3. **Configure as variáveis de ambiente:** 
-  Crie um arquivo .env.local na raiz do projeto com as credenciais da API:
- ```env
-BACKEND
-NEXTAUTH_SECRET=
-SECRET_KEY=
-DATABASE_URL=
-SUPABASE_URL=
-SUPABASE_KEY=
-GEMINI_API_KEY=
+```
+git clone https://github.com/ArthurLuis/case-paggo
+cd case-paggo
 ```
 
- ```env
-Frontend
+2. Instale as dependências:
+
+**Frontend:**
+
+```
+cd frontend
+npm install
+# ou
+yarn install
+```
+
+**Backend:**
+
+```
+cd ../backend
+npm install
+# ou
+yarn install
+```
+
+3. Configure as variáveis de ambiente:
+
+**Backend (`/backend/.env`):**
+
+```
+NEXTAUTH_SECRET=sua_chave_aqui
+SECRET_KEY=sua_chave_aqui
+DATABASE_URL=postgresql://usuario:senha@host:porta/database
+SUPABASE_URL=https://sua-url.supabase.co
+SUPABASE_KEY=sua-chave-supabase
+GEMINI_API_KEY=sua-chave-gemini
+```
+
+**Frontend (`/frontend/.env.local`):**
+
+```
 NEXTAUTH_SECRET=
 NEXT_PUBLIC_API_URL=
 ```
-4. **Inicie o servidor de desenvolvimento:**
-```bash
+
+4. Rode os servidores de desenvolvimento:
+
+**Frontend:**
+
+```
 cd frontend
 npm run dev
 # ou
 yarn dev
 ```
 
-```bash
+**Backend:**
+
+```
 cd backend
-npm start run:dev
+npm run start:dev
+# ou
+yarn start:dev
+```
 
-```
-5. **Acesse o projeto no navegador:** http://localhost:3000 
+5. Acesse a aplicação em [http://localhost:3000](http://localhost:3000)
 
-## 🔐 Credenciais de Login
-Você pode fazer login com as seguintes credenciais:
-```
-Email: paggo@gmail.com
-Senha: Paggo123
-```
 ---
 
-## 📜 Próximos Passos
-* Refatoração de código para melhoria na performance.
-* Testes unitários e Testes de integração para garantir a estabilidade da aplicação.
-* Editar nome do documento
-* Pagina de criar conta
-* Filtros e pesquisa na pagina de Documentos
-* Barra de carregamento com feedback da api durante criação de documento
+## 📌 Melhorias Futuras
+
+- Testes unitários e de integração
+- Edição de nomes de documentos
+- Implementação de filtros e busca inteligente por documentos
+- Suporte para upload de PDFs
+- Geração de tags automáticas utilizando IA
 
 ---
-_Codado com ❤️ por Arthur luis, aspirante paggo_  
 
+## 📋 Organização do Projeto
+
+Todo o desenvolvimento foi organizado por meio do Notion, com detalhamento das tarefas diárias, problemas enfrentados e priorização das funcionalidades.
+
+- **Acessar o Notion do Projeto:** [ESCANE.IA no Notion](https://somber-poppyseed-ad6.notion.site/ESCANE-IA-1b42b5a27fc38083827be293dc3c1ac0?pvs=4)
+
+---
+
+_Codado com ❤️ por **Arthur Luis**, apaixonado por resolver problemas com tecnologia._
