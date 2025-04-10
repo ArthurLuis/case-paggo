@@ -2,7 +2,7 @@
 import {usePathname, useRouter} from 'next/navigation';
 import Image from 'next/image';
 import {FaHome, FaFileAlt, FaSignOutAlt} from 'react-icons/fa';
-import appIcon from '../../../public/images/appIcon.svg';
+import appIcon from '../../../public/images/escaneialogoicon.png';
 import TopBarBox from './TopBarBox';
 
 const TopBar = () => {
@@ -72,7 +72,7 @@ const TopBar = () => {
         className='ml-10 hidden sm:block'
         src={appIcon}
         alt='Company Symbol'
-        width={69}
+        width={160}
         height={59}
       />
 

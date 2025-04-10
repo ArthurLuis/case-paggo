@@ -1,5 +1,4 @@
-'use client';
-import React, {useEffect, useRef, useState} from 'react';
+'use client';import React, {useEffect, useRef, useState} from 'react';
 import AppInput from '../components/AppInput/AppInput';
 import axios from 'axios';
 import {useRouter} from 'next/navigation';
@@ -8,6 +7,8 @@ import {AnimatePresence, motion} from 'framer-motion';
 import docAnimated from '@/public/docAnimated.json';
 import ocrAnimated from '@/public/ocrAnimated.json';
 import chatAnimated from '@/public/chatAnimated.json';
+import appLogo from '@/public/images/escaneialogo.png';
+import Image from 'next/image';
 
 const animations = [
   {animation: docAnimated, text: 'Envie uma imagem com texto'},
@@ -135,7 +136,15 @@ const Login = () => {
         {/* Formulário - ocupa toda largura em mobile */}
         <div className='flex w-full md:w-1/2 flex-col bg-[#060d0d] m-2 rounded-lg justify-center items-center p-8'>
           {/* Título com fade */}
-          <div className='transition-opacity duration-500 opacity-100'>
+          <div className='transition-opacity duration-500 opacity-100 flex flex-col items-center'>
+            <Image 
+              src={appLogo}
+              alt='Logo'
+              width={200}
+              height={200}
+              className='mb-4'
+            />
+
             <h1 className='text-[24px] leading-[52px] tracking-[0.48px] text-[#F2F0EF] font-nunito font-semibold mb-4'>
               {isRegistering ? 'Crie sua Conta' : 'Entrar na Plataforma'}
             </h1>
