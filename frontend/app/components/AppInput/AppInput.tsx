@@ -1,5 +1,4 @@
-'use client';
-import React, {ChangeEvent} from 'react';
+'use client';import React, {ChangeEvent} from 'react';
 
 interface AppInputTypes {
   type: 'text' | 'password' | 'number';
@@ -51,7 +50,7 @@ const AppInput = ({
           <input
             type={type}
             placeholder={placeholder}
-            className={`w-full p-3 bg-gray-100 rounded-lg text-gray-700 focus:outline-none ${
+            className={`w-full p-3 bg-gray-100 rounded-lg text-gray-700 shadow-sm focus:outline-none ${
               disabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
             value={value}
