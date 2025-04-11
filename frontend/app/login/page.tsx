@@ -1,6 +1,10 @@
-'use client';import React, { useEffect, useRef, useState } from 'react';import AppInput from '../components/AppInput/AppInput';import axios from 'axios';import { useRouter } from 'next/navigation';
+'use client';
+import React, {useEffect, useRef, useState} from 'react';
+import AppInput from '../components/AppInput/AppInput';
+import axios from 'axios';
+import {useRouter} from 'next/navigation';
 import Lottie from 'lottie-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import {AnimatePresence, motion} from 'framer-motion';
 import docAnimated from '@/public/docAnimated.json';
 import ocrAnimated from '@/public/ocrAnimated.json';
 import chatAnimated from '@/public/chatAnimated.json';
@@ -8,15 +12,15 @@ import appLogo from '@/public/images/escaneialogo.png';
 import Image from 'next/image';
 
 const animations = [
-  { animation: docAnimated, text: 'Envie uma imagem com texto' },
-  { animation: ocrAnimated, text: 'O sistema irá extrair o texto da imagem' },
-  { animation: chatAnimated, text: 'Converse com a IA para entender o conteúdo' },
+  {animation: docAnimated, text: 'Envie uma imagem com texto'},
+  {animation: ocrAnimated, text: 'O sistema irá extrair o texto da imagem'},
+  {animation: chatAnimated, text: 'Converse com a IA para entender o conteúdo'},
 ];
 
 const loginUser = async (email: string, password: string) => {
   const loginUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`;
   try {
-    const response = await axios.post(loginUrl, { email, password });
+    const response = await axios.post(loginUrl, {email, password});
     if (response.status === 200) {
       document.cookie = `authToken=${response.data.access_token}; max-age=86400; path=/; Secure; SameSite=Strict`;
       return response.data.access_token;
@@ -30,7 +34,7 @@ const loginUser = async (email: string, password: string) => {
 const registerUser = async (name: string, email: string, password: string) => {
   const registerUrl = `${process.env.NEXT_PUBLIC_API_URL}/user`;
   try {
-    const response = await axios.post(registerUrl, { name, email, password });
+    const response = await axios.post(registerUrl, {name, email, password});
     if (response.status === 201 || response.status === 200) {
       return await loginUser(email, password);
     }
@@ -169,7 +173,7 @@ const Login = () => {
                 placeholder='Digite seu nome'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                maxWidth={300}
+                width={300}
               />
             </div>
 
@@ -180,7 +184,7 @@ const Login = () => {
                 placeholder='Digite seu e-mail'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                maxWidth={300}
+                width={300}
               />
             </div>
 
@@ -198,7 +202,7 @@ const Login = () => {
                 placeholder='Digite sua senha'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                maxWidth={300}
+                width={300}
               />
             </div>
 
@@ -215,7 +219,7 @@ const Login = () => {
                 placeholder='Confirme sua senha'
                 value={passwordConfirm}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
-                maxWidth={300}
+                width={300}
               />
             </div>
 
@@ -226,7 +230,7 @@ const Login = () => {
             <button
               type='submit'
               disabled={loading}
-              className='w-[300px] py-3 bg-[#060d0d] border border-solid text-white rounded-md hover:bg-gray-900 focus:outline-none transition-all duration-500 mt-4 disabled:opacity-50 disabled:cursor-not-allowed'
+              className='w-full max-w-[300px] py-3 bg-[#060d0d] border border-solid text-white rounded-md hover:bg-gray-900 focus:outline-none transition-all duration-500 mt-4 disabled:opacity-50 disabled:cursor-not-allowed'
             >
               <motion.span
                 key={loading ? 'loading' : 'normal'}

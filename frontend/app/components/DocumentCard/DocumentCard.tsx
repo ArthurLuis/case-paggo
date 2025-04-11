@@ -1,4 +1,5 @@
-'use client';import React, {useState, useEffect} from 'react';
+'use client';
+import React, {useState, useEffect} from 'react';
 import Balloon from '../Balloon/Baloon';
 import AppInput from '../AppInput/AppInput';
 import AppButton from '../AppButton/AppButton';
@@ -191,7 +192,6 @@ const DocumentCard = ({
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 disabled={isSending}
-                maxWidth={350}
               />
               <AppButton
                 title={isSending ? 'Enviando...' : 'Enviar'}

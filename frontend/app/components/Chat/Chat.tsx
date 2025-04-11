@@ -26,7 +26,7 @@ const getTokenFromCookies = (): string | null => {
     return acc;
   }, {} as {[key: string]: string});
 
-  return cookies.authToken || null; 
+  return cookies.authToken || null;
 };
 
 const Chat = ({aiResponse, photo, documentId, extractedText}: ChatProps) => {
@@ -37,7 +37,7 @@ const Chat = ({aiResponse, photo, documentId, extractedText}: ChatProps) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleSendMessage = async () => {
-    if (userInput.trim() === '') return; 
+    if (userInput.trim() === '') return;
 
     const authToken = getTokenFromCookies();
     if (!authToken) {
@@ -118,7 +118,6 @@ const Chat = ({aiResponse, photo, documentId, extractedText}: ChatProps) => {
         <AppInput
           type='text'
           placeholder='Faça uma pergunta...'
-          maxWidth={500}
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           disabled={loading}
