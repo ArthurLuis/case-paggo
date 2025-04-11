@@ -43,7 +43,21 @@ const AppScreen: React.FC<AppScreenProps> = ({children}) => {
   return (
     <>
       <TopBar />
-      <div className='mt-32 ml-44 mr-10'>{children}</div>
+      <div
+        className={`
+          mt-20
+          sm:mt-24
+          md:mt-28
+          lg:mt-32 lg:ml-44 lg:mr-10
+
+          px-4 pt-4 pb-8
+          sm:px-6 sm:pt-6 sm:pb-10
+          md:px-8 md:pt-8 md:pb-12
+          lg:px-0 lg:pt-0 lg:pb-0
+        `}
+      >
+        {children}
+      </div>
     </>
   );
 };

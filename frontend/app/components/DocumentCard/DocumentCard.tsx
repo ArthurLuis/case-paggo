@@ -7,7 +7,7 @@ import DownloadButton from '../DownloadButton/DownloadButton';
 import ImageModal from '../ImageModal/ImageModal';
 import {MdArrowDropDown} from 'react-icons/md';
 import axios from 'axios';
-import DeleteButton from '../DeleteButton/DeleteButton'; // Certifique-se de importar o DeleteButton
+import DeleteButton from '../DeleteButton/DeleteButton';
 
 interface LlmResponse {
   id: string;
@@ -112,7 +112,8 @@ const DocumentCard = ({
 
   return (
     <div
-      className='document-card bg-white rounded-xl shadow-lg p-4 mb-4 cursor-pointer transition-all duration-300 ease-in-out w-[80%] mx-auto'
+      className='document-card bg-white rounded-xl shadow-lg p-4 mb-4 cursor-pointer transition-all duration-300 ease-in-out
+                 w-full sm:w-[90%] md:w-[80%] mx-auto'
       onClick={(e) => {
         e.stopPropagation();
         onExpand(documentId);
@@ -130,7 +131,7 @@ const DocumentCard = ({
           width='80px'
           height='80px'
         />
-        <h3 className='text-lg font-semibold text-center w-full'>
+        <h3 className='text-base sm:text-lg font-semibold text-center w-full truncate'>
           {documentTitle}
         </h3>
         {!isExpanded && (
@@ -140,12 +141,8 @@ const DocumentCard = ({
         )}
       </div>
 
-      {/* Organizando botões em um contêiner flex */}
       <div className='absolute right-4 top-4 flex flex-col gap-4'>
-        {/* Botão de Download */}
         <DownloadButton documentId={documentId} documentTitle={documentTitle} />
-
-        {/* Botão de Deletar */}
         <DeleteButton
           documentId={documentId}
           documentName={documentTitle}
@@ -187,23 +184,21 @@ const DocumentCard = ({
             className='absolute bottom-0 left-0 w-full p-4 bg-white'
             onClick={(e) => e.stopPropagation()}
           >
-            <div className='flex items-center justify-center space-x-4'>
+            <div className='flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4'>
               <AppInput
                 type='text'
                 placeholder='Digite sua mensagem...'
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 disabled={isSending}
-                width={350}
+                maxWidth={350}
               />
-              <div>
-                <AppButton
-                  title={isSending ? 'Enviando...' : 'Enviar'}
-                  bgColor='bg-gray-800'
-                  onClick={handleSendMessage}
-                  disabled={isSending}
-                />
-              </div>
+              <AppButton
+                title={isSending ? 'Enviando...' : 'Enviar'}
+                bgColor='bg-gray-800'
+                onClick={handleSendMessage}
+                disabled={isSending}
+              />
             </div>
           </div>
         </div>

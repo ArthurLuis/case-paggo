@@ -1,5 +1,4 @@
-'use client';
-import React, {useState, useEffect, useRef} from 'react';
+'use client';import React, {useState, useEffect, useRef} from 'react';
 import Balloon from '../Balloon/Baloon';
 import AppInput from '../AppInput/AppInput';
 import AppButton from '../AppButton/AppButton';
@@ -86,7 +85,12 @@ const Chat = ({aiResponse, photo, documentId, extractedText}: ChatProps) => {
     <div className='flex flex-col justify-between relative bg-white rounded-lg shadow-md pr-20 pt-14 pl-10 max-w-[1200px] mx-auto mt-20 h-[calc(100vh-200px)] overflow-y-auto'>
       <div>
         <Balloon type='user'>
-          <ImageModal src={photo} alt='Documento' width='150px' height='150px'></ImageModal>
+          <ImageModal
+            src={photo}
+            alt='Documento'
+            width='150px'
+            height='150px'
+          ></ImageModal>
         </Balloon>
         <Balloon type='app'>{extractedText}</Balloon>
         <Balloon type='app'>{aiResponse}</Balloon>
@@ -94,7 +98,7 @@ const Chat = ({aiResponse, photo, documentId, extractedText}: ChatProps) => {
           <div key={index}>
             <Balloon type='user'>{interaction.userQuery}</Balloon>
 
-            <Balloon type='app'>  
+            <Balloon type='app'>
               {interaction.llmAnswer === '...' ? (
                 <Loading isLoading />
               ) : (
@@ -114,7 +118,7 @@ const Chat = ({aiResponse, photo, documentId, extractedText}: ChatProps) => {
         <AppInput
           type='text'
           placeholder='Faça uma pergunta...'
-          width={500}
+          maxWidth={500}
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           disabled={loading}

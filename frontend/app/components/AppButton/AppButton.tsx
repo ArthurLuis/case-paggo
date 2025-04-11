@@ -8,6 +8,7 @@ interface AppButtonTypes {
   textColor?: string;
   onClick?: () => void;
   disabled?: boolean;
+  maxWidth?: number;
 }
 
 const AppButton = ({
@@ -17,21 +18,28 @@ const AppButton = ({
   textColor = 'text-white',
   onClick,
   disabled = false,
+  maxWidth = 120,
 }: AppButtonTypes) => {
-  const baseClasses = `flex items-center justify-center px-6 py-2 rounded-lg font-normal text-xl shadow-md transition duration-200 max-w-[120px] ${
+  const baseClasses = `flex items-center justify-center px-6 py-2 rounded-lg font-normal text-xl shadow-md transition duration-200 w-full ${
     disabled
       ? 'bg-gray-400 cursor-not-allowed opacity-50'
       : `${bgColor} cursor-pointer hover:shadow-lg`
   } ${textColor}`;
 
+  const style = {maxWidth: `${maxWidth}px`};
+
   const buttonContent = (
-    <div className={baseClasses} onClick={!disabled ? onClick : undefined}>
+    <div
+      className={baseClasses}
+      onClick={!disabled ? onClick : undefined}
+      style={style}
+    >
       {title}
     </div>
   );
 
   return href && !disabled ? (
-    <Link className={baseClasses} href={href}>
+    <Link className={baseClasses} href={href} style={style}>
       {buttonContent}
     </Link>
   ) : (

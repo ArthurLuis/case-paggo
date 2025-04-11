@@ -1,8 +1,4 @@
-'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import AppInput from '../components/AppInput/AppInput';
-import axios from 'axios';
-import { useRouter } from 'next/navigation';
+'use client';import React, { useEffect, useRef, useState } from 'react';import AppInput from '../components/AppInput/AppInput';import axios from 'axios';import { useRouter } from 'next/navigation';
 import Lottie from 'lottie-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import docAnimated from '@/public/docAnimated.json';
@@ -101,36 +97,38 @@ const Login = () => {
   }, [currentSlide]);
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-[#060d0d] p-14">
-      <div className="flex w-full h-full bg-[#F2F0EF] rounded-lg">
+    <div className='flex h-screen w-screen items-center justify-center bg-[#060d0d] p-14'>
+      <div className='flex w-full h-full bg-[#F2F0EF] rounded-lg'>
         {/* Animações - ocultas em mobile */}
-        <div className="hidden md:flex w-1/2 flex-col items-center justify-center p-8 relative">
-          <AnimatePresence mode="wait">
+        <div className='hidden md:flex w-1/2 flex-col items-center justify-center p-8 relative'>
+          <AnimatePresence mode='wait'>
             <motion.div
               key={currentSlide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="flex flex-col items-center"
+              initial={{opacity: 0}}
+              animate={{opacity: 1}}
+              exit={{opacity: 0}}
+              transition={{duration: 0.3}}
+              className='flex flex-col items-center'
             >
               <Lottie
                 animationData={animations[currentSlide].animation}
                 loop
                 autoPlay
-                className="w-[300px] h-[300px]"
+                className='w-[300px] h-[300px]'
               />
-              <p className="text-center mt-4 text-[#060d0d] text-lg font-semibold">
+              <p className='text-center mt-4 text-[#060d0d] text-lg font-semibold'>
                 {animations[currentSlide].text}
               </p>
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-2 mt-6">
+          <div className='flex gap-2 mt-6'>
             {animations.map((_, idx) => (
               <button
                 key={idx}
                 className={`h-3 w-3 rounded-full transition-all duration-300 ${
-                  currentSlide === idx ? 'bg-[#060d0d] scale-125' : 'bg-gray-400'
+                  currentSlide === idx
+                    ? 'bg-[#060d0d] scale-125'
+                    : 'bg-gray-400'
                 }`}
                 onClick={() => setCurrentSlide(idx)}
               />
@@ -139,24 +137,27 @@ const Login = () => {
         </div>
 
         {/* Formulário - ocupa toda largura em mobile */}
-        <div className="flex w-full md:w-1/2 flex-col bg-[#060d0d] m-2 rounded-lg justify-center items-center p-8">
+        <div className='flex w-full md:w-1/2 flex-col bg-[#060d0d] m-2 rounded-lg justify-center items-center p-8'>
           {/* Título com fade */}
-          <div className="transition-opacity duration-500 opacity-100 flex flex-col items-center">
+          <div className='transition-opacity duration-500 opacity-100 flex flex-col items-center'>
             <Image
               src={appLogo}
-              alt="Logo"
+              alt='Logo'
               width={200}
               height={200}
-              className="mb-4"
+              className='mb-4'
             />
 
-            <h1 className="text-[24px] leading-[52px] tracking-[0.48px] text-[#F2F0EF] font-nunito font-semibold mb-4">
+            <h1 className='text-[24px] leading-[52px] tracking-[0.48px] text-[#F2F0EF] font-nunito font-semibold mb-4'>
               {isRegistering ? 'Crie sua Conta' : 'Entrar na Plataforma'}
             </h1>
           </div>
 
           {/* Form com transições */}
-          <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
+          <form
+            onSubmit={handleSubmit}
+            className='w-full flex flex-col items-center'
+          >
             {/* Campo Nome */}
             <div
               className={`overflow-hidden transition-all duration-500 ${
@@ -164,22 +165,22 @@ const Login = () => {
               }`}
             >
               <AppInput
-                type="text"
-                placeholder="Digite seu nome"
+                type='text'
+                placeholder='Digite seu nome'
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                width={300}
+                maxWidth={300}
               />
             </div>
 
             {/* Email */}
-            <div className="mt-4">
+            <div className='mt-4'>
               <AppInput
-                type="text"
-                placeholder="Digite seu e-mail"
+                type='text'
+                placeholder='Digite seu e-mail'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                width={300}
+                maxWidth={300}
               />
             </div>
 
@@ -191,46 +192,48 @@ const Login = () => {
             />
 
             {/* Senha */}
-            <div className="mt-4">
+            <div className='mt-4'>
               <AppInput
-                type="password"
-                placeholder="Digite sua senha"
+                type='password'
+                placeholder='Digite sua senha'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                width={300}
+                maxWidth={300}
               />
             </div>
 
             {/* Confirmar senha */}
             <div
               className={`overflow-hidden transition-all duration-500 ${
-                isRegistering ? 'max-h-40 opacity-100 mt-4' : 'max-h-0 opacity-0'
+                isRegistering
+                  ? 'max-h-40 opacity-100 mt-4'
+                  : 'max-h-0 opacity-0'
               }`}
             >
               <AppInput
-                type="password"
-                placeholder="Confirme sua senha"
+                type='password'
+                placeholder='Confirme sua senha'
                 value={passwordConfirm}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
-                width={300}
+                maxWidth={300}
               />
             </div>
 
             {/* Erro */}
-            {error && <p className="text-red-500 mt-2">{error}</p>}
+            {error && <p className='text-red-500 mt-2'>{error}</p>}
 
             {/* Botão */}
             <button
-              type="submit"
+              type='submit'
               disabled={loading}
-              className="w-[300px] py-3 bg-[#060d0d] border border-solid text-white rounded-md hover:bg-gray-900 focus:outline-none transition-all duration-500 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+              className='w-[300px] py-3 bg-[#060d0d] border border-solid text-white rounded-md hover:bg-gray-900 focus:outline-none transition-all duration-500 mt-4 disabled:opacity-50 disabled:cursor-not-allowed'
             >
               <motion.span
                 key={loading ? 'loading' : 'normal'}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0}}
+                transition={{duration: 0.3}}
               >
                 {loading
                   ? isRegistering
@@ -244,12 +247,12 @@ const Login = () => {
           </form>
 
           {/* Link alternância */}
-          <div className="flex gap-2 mt-4 transition-opacity duration-500">
-            <p className="text-white">
+          <div className='flex gap-2 mt-4 transition-opacity duration-500'>
+            <p className='text-white'>
               {isRegistering ? 'Já tem uma conta?' : 'Não tem uma conta?'}
             </p>
             <p
-              className="text-white underline underline-offset-1 hover:underline-offset-4 transition-all duration-300 ease-in-out cursor-pointer"
+              className='text-white underline underline-offset-1 hover:underline-offset-4 transition-all duration-300 ease-in-out cursor-pointer'
               onClick={() => {
                 if (loading) return;
                 setError(null);
